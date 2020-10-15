@@ -3,6 +3,8 @@ import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
+  input='';
+
   msgStyle={
     fontSize:"24pt",
     color:"#900",
@@ -10,50 +12,56 @@ class App extends Component {
     padding:"5px",
     borderBottom:"2px solid #900"
   }
-  msgStyle2={
-    fontSize:"20pt",
-    color:"white",
-    backgroundColor:"#900",
-    margin:"20px 0px",
-    padding:"5px",
-    borderBottom:"2px solid #900"
-  }
-  btnStyle = {
-    fontSize:"16pt",
-    padding:"10px"
-  }
 
   constructor(props){
     super(props);
     this.state={
-      counter:0,
-      msg:'count start!',
-      flg:true
+      message: 'type your name.'
     };
-    this.doAction=this.doAction.bind(this);
+    this.doCheck=this.doCheck.bind(this);
   }
 
-  doAction(e){
-    this.setState((state)=>({
-      counter: state.counter +1,
-      msg:'count:' + state.counter,
-      flg:!state.flg
-    }))
+  doCheck(event){
+    alert(event.target.value + "は長すぎます。")
   }
 
   render(){
     return (
     <div>
       <h1>React</h1>
-      {this.state.flg ?
-      <p style={this.msgStyle}>{this.state.msg}</p>
-      :
-      <p style={this.msgStyle2}>{this.state.msg}</p>
-      }
-      <button style={this.btnStyle} onClick={this.doAction}>Click</button>
+      <h2 >{this.state.message}</h2>
+      <Message maxlength="10" onCheck={this.doCheck} />
     </div>
     );
   }
 }
+
+class Message extends Component{
+  inputStyle={
+    fontSize:"12pt",
+    padding:"5px"
+  }
+
+  constructor(props){
+    super(props);
+    this.doChange=this.doChange.bind(this);
+  }
+
+  doChange(e){
+    if(e.target.value.length > this.props.maxlength){
+      this.props.onCheck(e);
+      e.target.value=e.target.value.substr(0,this.props.maxlength);
+    }
+  }
+
+  render(){
+    return <input type="text" style={this.inputStyle}
+    onChange={this.doChange}/>
+  }
+
+
+}
+
+
 
 export default App;
