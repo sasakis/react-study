@@ -1,54 +1,33 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import {connect} from 'react-redux';
 import './App.css';
-
-let data ={title:'Title' ,message:'this is sample message.'};
-
-const SampleContext=React.createContext(data);
-
+import Memo from './memo/Memo';
+import AddForm from './memo/AddForm';
+import FindForm from './memo/FindForm';
+import DelForm from './memo/DelForm';
 
 class App extends Component {
-  newdata ={title:'新しいタイトル' ,message:'新しいメッセージ'};
+  td ={
+    width:"250px"
+  }
+  constructor(props){
+    super(props);
+  }
 
   render(){
     return (
     <div>
-      <h1>Context</h1>
-      <Title />
-      <Message />
-      <SampleContext.Provider value={this.newdata}>
-        <Title/>
-        <Message />
-      </SampleContext.Provider>
-      <Title/>
-      <Message/>
+      <h1>Memo</h1>
+      <AddForm />
+      <hr />
+      <table><tbody><tr>
+        <td style={this.td}><FindForm /></td>
+        <td style={this.td}><DelForm /></td>
+        </tr></tbody></table>
+      <Memo />
     </div>
     );
   }
 }
 
-class Title extends Component{
-  static contextType = SampleContext;
-  render(){
-    return (
-      <div>
-        <h2>{this.context.title}</h2>
-      </div>
-    )
-  };
-}
-
-class Message extends Component{
-  static contextType=SampleContext;
-  render(){
-    return(
-      <div>
-        <p>{this.context.message}</p>
-      </div>
-    )
-  };
-}
-
-
-
-export default App;
+export default connect()(App);
